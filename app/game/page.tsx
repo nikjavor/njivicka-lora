@@ -1,4 +1,25 @@
-function GameInfo() {
+import { getPlayers } from "@/app/lib/data";
+
+async function GameInfo({
+  p1,
+  p2,
+  p3,
+  p4,
+}: {
+  p1: number;
+  p2: number;
+  p3: number;
+  p4: number;
+}) {
+  const response = await getPlayers(p1, p2, p3, p4);
+
+  const players = response.map((player, index) => {
+    return (
+      <td key={player.id}>
+        p{index + 1}:{player.username}
+      </td>
+    );
+  });
   return (
     <>
       <h1 className="text-4xl text-center">Game Name</h1>
@@ -6,10 +27,7 @@ function GameInfo() {
       <table className="w-full">
         <tbody className="border-red-500">
           <tr className="border-green-500 *:text-center *:text-xs">
-            <td>p1:leonabr</td>
-            <td>p2:nikjavo</td>
-            <td>p3:najajav</td>
-            <td>p4:crtstro</td>
+            {players}
           </tr>
         </tbody>
       </table>
@@ -20,7 +38,7 @@ function GameInfo() {
 export default function Page() {
   return (
     <>
-      <GameInfo />
+      <GameInfo p1={2} p2={3} p3={4} p4={5} />
     </>
   );
 }
