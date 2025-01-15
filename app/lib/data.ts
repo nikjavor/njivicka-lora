@@ -17,10 +17,27 @@ export async function getPlayers(
   }
 }
 
-export async function getPlayer(id: number) {
+export async function getPlayerUsername(playerID: number) {
   try {
-    const response = await sql`SELECT username FROM players WHERE id = ${id}`;
+    const response =
+      await sql`SELECT username FROM players WHERE id = ${playerID}`;
     return response;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch revenue data.");
+  }
+}
+
+export async function getPlayerUsernamesFromGame(gameID: number) {
+  try {
+    const usernames = [];
+    const response =
+      await sql`SELECT player1, player2, player3, player4 FROM games WHERE id = ${gameID}`;
+    for (const playerID of Object.values(response[0])) {
+      const usernameObject = await getPlayerUsername(Number(playerID));
+      usernames.push(usernameObject[0].username);
+    }
+    return usernames; // Array with 4 username strings
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch revenue data.");

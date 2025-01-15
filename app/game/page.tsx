@@ -1,22 +1,12 @@
-import { getPlayers } from "@/app/lib/data";
+import { getPlayerUsernamesFromGame } from "@/app/lib/data";
 
-async function GameInfo({
-  p1,
-  p2,
-  p3,
-  p4,
-}: {
-  p1: number;
-  p2: number;
-  p3: number;
-  p4: number;
-}) {
-  const response = await getPlayers(p1, p2, p3, p4);
-
-  const players = response.map((player, index) => {
+async function GameInfo({ gameID }: { gameID: number }) {
+  // const response = await getPlayers(p1, p2, p3, p4);
+  const usernames = await getPlayerUsernamesFromGame(gameID);
+  const players = usernames.map((username, index) => {
     return (
-      <td key={player.id}>
-        p{index + 1}:{player.username}
+      <td key={index}>
+        p{index + 1}:{username}
       </td>
     );
   });
@@ -35,10 +25,17 @@ async function GameInfo({
   );
 }
 
-export default function Page() {
+export default async function Page(props: {
+  searchParams?: Promise<{
+    g?: string;
+  }>;
+}) {
+  const searchParams = await props.searchParams;
+  const gameID = Number(searchParams?.g) || 0;
+
   return (
     <>
-      <GameInfo p1={2} p2={3} p3={4} p4={5} />
+      <GameInfo gameID={gameID} />
     </>
   );
 }
