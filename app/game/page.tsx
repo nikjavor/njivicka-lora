@@ -1,4 +1,5 @@
 import { getPlayerUsernamesFromGame } from "@/app/lib/data";
+import { getGameInfo } from "@/app/lib/data";
 
 async function GameInfo({ gameID }: { gameID: number }) {
   // const response = await getPlayers(p1, p2, p3, p4);
@@ -10,10 +11,11 @@ async function GameInfo({ gameID }: { gameID: number }) {
       </td>
     );
   });
+  const gameInfo = await getGameInfo(gameID);
   return (
     <>
-      <h1 className="text-4xl text-center">Game Name</h1>
-      <p className="text-center">2.12.2005</p>
+      <h1 className="text-4xl text-center">{gameInfo.title}</h1>
+      <p className="text-center">{gameInfo.creation_date.toUTCString().slice(5, 16)}</p>
       <table className="w-full">
         <tbody className="border-red-500">
           <tr className="border-green-500 *:text-center *:text-xs">

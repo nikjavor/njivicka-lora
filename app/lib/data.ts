@@ -43,3 +43,23 @@ export async function getPlayerUsernamesFromGame(gameID: number) {
     throw new Error("Failed to fetch revenue data.");
   }
 }
+
+export async function getGameTitle(gameID:number) {
+  try {
+    const response = await sql`SELECT title FROM games WHERE id = ${gameID}`
+    return response[0].title
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch revenue data.");
+  }
+}
+
+export async function getGameInfo(gameID:number) {
+  try {
+    const response = await sql`SELECT * FROM games WHERE id = ${gameID}`
+    return response[0]
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch revenue data.");
+  }
+}
