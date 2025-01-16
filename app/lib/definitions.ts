@@ -18,3 +18,10 @@ export type Game = {
   player4: number;
   finished: boolean;
 };
+
+export type Score = {
+  id: number;
+  player_id: number;
+  round_id: number;
+  value: number;
+}
