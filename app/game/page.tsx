@@ -1,8 +1,6 @@
-import { getPlayerUsernamesFromGame } from "@/app/lib/data";
-import { getGameInfo } from "@/app/lib/data";
+import { getPlayerUsernamesFromGame, getGameInfo, isValidGameID } from "@/app/lib/data";
 
 async function GameInfo({ gameID }: { gameID: number }) {
-  // const response = await getPlayers(p1, p2, p3, p4);
   const usernames = await getPlayerUsernamesFromGame(gameID);
   const players = usernames.map((username, index) => {
     return (
@@ -33,11 +31,11 @@ export default async function Page(props: {
   }>;
 }) {
   const searchParams = await props.searchParams;
-  const gameID = Number(searchParams?.g) || 0;
-
+  const gameID = Number(searchParams?.g) || -1;
+  const isValidGameId = await isValidGameID(gameID)
   return (
     <>
-      <GameInfo gameID={gameID} />
+      {isValidGameId && <GameInfo gameID={gameID} />}
     </>
   );
 }

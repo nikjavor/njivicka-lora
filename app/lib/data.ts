@@ -63,3 +63,13 @@ export async function getGameInfo(gameID:number) {
     throw new Error("Failed to fetch revenue data.");
   }
 }
+
+export async function isValidGameID(gameID:number) {
+  try {
+    const response = await sql`SELECT COUNT(*) FROM games WHERE id = ${gameID}`
+    return response[0].count == 1? true : false;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch revenue data.");
+  }
+}
