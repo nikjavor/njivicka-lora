@@ -4,8 +4,8 @@ async function GameInfo({ gameID }: { gameID: number }) {
   const usernames = await getPlayerUsernamesFromGame(gameID);
   const players = usernames.map((username, index) => {
     return (
-      <td key={index}>
-        p{index + 1}:{username}
+      <td key={index} className="text-center text-xs border-r border-black last:border-0">
+        {username}
       </td>
     );
   });
@@ -13,10 +13,10 @@ async function GameInfo({ gameID }: { gameID: number }) {
   return (
     <>
       <h1 className="text-4xl text-center">{gameInfo.title}</h1>
-      <p className="text-center">{gameInfo.creation_date.toUTCString().slice(5, 16)}</p>
+      <p className="text-center mt-1 mb-2.5 ">{gameInfo.creation_date.toUTCString().slice(5, 16)}</p>
       <table className="w-full">
         <tbody className="border-red-500">
-          <tr className="border-green-500 *:text-center *:text-xs">
+          <tr className="border-green-500">
             {players}
           </tr>
         </tbody>
