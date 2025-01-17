@@ -34,7 +34,7 @@ export default async function GameBody({ gameID }: { gameID: number }) {
     });
 
     return (
-      <tr key={index} className="*:text-center">
+      <tr key={index} className="*:text-center last:border-2 border-black">
         {players}
       </tr>
     );
@@ -43,14 +43,8 @@ export default async function GameBody({ gameID }: { gameID: number }) {
   return (
     <>
       <table className="w-full table-fixed">
-        <tbody className="border-red-500">
+        <tbody>
           {rows}
-          <tr className="*:text-sm">
-            <td>tot: 12</td>
-            <td>tot: 12</td>
-            <td>tot: 12</td>
-            <td>tot: 12</td>
-          </tr>
         </tbody>
       </table>
     </>
