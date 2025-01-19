@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${spaceMono.className} antialiased p-4`}>
+      <body className={`${spaceMono.className} antialiased pt-4 px-1`}>
         {children}
       </body>
     </html>

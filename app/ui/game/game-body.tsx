@@ -4,6 +4,7 @@ import {
   getRoundScores,
 } from "@/app/lib/data";
 import { Score } from "@/app/lib/definitions";
+import AddActionButtons from "./game-action-buttons";
 
 export default async function GameBody({ gameID }: { gameID: number }) {
   const rounds = await getRounds(gameID);
@@ -34,7 +35,7 @@ export default async function GameBody({ gameID }: { gameID: number }) {
     });
 
     return (
-      <tr key={index} className="*:text-center last:border-2 border-black">
+      <tr key={index} className="*:text-center">
         {players}
       </tr>
     );
@@ -42,11 +43,12 @@ export default async function GameBody({ gameID }: { gameID: number }) {
 
   return (
     <>
-      <table className="w-full table-fixed">
+      <table className="w-full table-fixed mb-8">
         <tbody>
           {rows}
         </tbody>
       </table>
+        <AddActionButtons gameID={gameID}/>
     </>
   );
 }

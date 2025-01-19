@@ -12,8 +12,12 @@ export default async function Page(props: {
   const isValidGameId = await isValidGameID(gameID);
   return (
     <>
-      {isValidGameId && <GameInfo gameID={gameID} />}
-      <GameBody gameID={gameID} />
+      {isValidGameId && (
+        <>
+          <GameInfo gameID={gameID} />
+          <GameBody gameID={gameID} />
+        </>
+      )}
     </>
   );
 }
