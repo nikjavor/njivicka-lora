@@ -56,7 +56,7 @@ export default function GameBody({ gameID }: { gameID: number }) {
                   <input
                     type="number"
                     value={value ?? ""}
-                    className="w-1/2"
+                    className="w-2/3 border-2 rounded-md border-black dark:border-white"
                     onChange={(e) =>
                       handleInputChange(
                         Number(roundId),

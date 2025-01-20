@@ -15,14 +15,7 @@ function AddRoundButton({ gameID }: { gameID: number }) {
       console.error("Error fetching last round:", error);
     }
   }
-  return (
-    <button
-      className={`${manrope.className} antialiased font-bold bg-black text-white rounded-full py-2 px-4`}
-      onClick={handleAddRound}
-    >
-      ADD ROUND
-    </button>
-  );
+  return <button onClick={handleAddRound}>ADD ROUND</button>;
 }
 
 function SaveButton({
@@ -42,14 +35,7 @@ function SaveButton({
     }
   }
 
-  return (
-    <button
-      className="antialiased font-bold bg-black text-white rounded-full py-2 px-4"
-      onClick={handleSave}
-    >
-      SAVE
-    </button>
-  );
+  return <button onClick={handleSave}>SAVE</button>;
 }
 
 export default function AddActionButtons({
@@ -60,7 +46,9 @@ export default function AddActionButtons({
   roundScores: { [roundId: number]: { [playerId: number]: number | null } };
 }) {
   return (
-    <div className="flex gap-4 justify-center">
+    <div
+      className={`flex gap-4 justify-center *:${manrope.className} *:antialiased *:font-bold *:bg-black *:dark:bg-white *:text-white *:rounded-full *:py-2 *:px-4`}
+    >
       <AddRoundButton gameID={gameID} />
       <SaveButton gameID={gameID} roundScores={roundScores} />
     </div>
