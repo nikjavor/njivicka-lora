@@ -35,10 +35,10 @@ function SaveButton({
   async function handleSave() {
     try {
       await saveScores(gameID, roundScores);
-      alert("Scores saved successfully!");
+      alert("Uspešno shranjeno!");
     } catch (error) {
       console.error("Failed to save scores:", error);
-      alert("Failed to save scores.");
+      alert("!!! Napaka pri shranjevanju !!!");
     }
   }
 
