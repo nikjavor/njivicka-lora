@@ -18,6 +18,14 @@ export default async function Page(props: {
           <GameBody gameID={gameID} />
         </>
       )}
+      {!(isValidGameId) && (
+        <>
+          <p>Url je napačen: g={gameID}
+          </p>
+          <p>Zgled pravilnega URL-ja:</p>
+          <p>...vercel.app/game?g=1</p>
+        </>
+      )}
     </>
   );
 }
