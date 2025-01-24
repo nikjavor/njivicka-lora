@@ -1,6 +1,6 @@
 import { getPlayerUsernamesFromGame, getGameInfo } from "@/app/lib/data";
 
-export default async function GameInfo({ gameID }: { gameID: number }) {
+export default async function ShowcaseInfo({ gameID }: { gameID: number }) {
   const usernames = await getPlayerUsernamesFromGame(gameID);
   const players = usernames.map((username, index) => {
     return (

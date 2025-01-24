@@ -1,6 +1,6 @@
 import { isValidGameID } from "@/app/lib/data";
-import GameInfo from "../ui/game/game-info";
-import GameBody from "../ui/game/game-body";
+import ShowcaseBody from "../ui/game-showcase/showcase-body";
+import ShowcaseInfo from "../ui/game-showcase/showcase-info";
 
 export default async function Page(props: {
   searchParams?: Promise<{
@@ -14,8 +14,8 @@ export default async function Page(props: {
     <div className="px-2">
       {isValidGameId && (
         <>
-          <GameInfo gameID={gameID} />
-          <GameBody />
+          <ShowcaseInfo gameID={gameID} />
+          <ShowcaseBody />
         </>
       )}
       {!isValidGameId && (
