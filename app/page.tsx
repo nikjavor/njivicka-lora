@@ -6,13 +6,13 @@ export default function Home() {
       <h1 className="text-4xl">Lora score</h1>
       <Link
         href={"/game?g=1"}
-        className="p-3 bg-black dark:bg-white text-white text-3xl font-bold rounded-xl"
+        className="p-3 bg-black border border-white text-white text-3xl font-bold rounded-xl"
       >
         Play game
       </Link>
       <Link
         href={"/game-showcase?g=1"}
-        className="py-1 px-3 bg-black dark:bg-white text-white text-md font-bold rounded-xl"
+        className="py-1 px-3 bg-black border border-white text-white text-md font-bold rounded-xl"
       >
         See showcase
       </Link>

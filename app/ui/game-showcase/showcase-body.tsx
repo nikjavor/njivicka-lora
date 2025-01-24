@@ -1,10 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import {
   ArrowDownFromLine,
   ArrowUpFromLine,
   BriefcaseMedical,
-  CookingPot,
+  Gem,
   Crown,
   HeartOff,
   Puzzle,
@@ -13,7 +14,20 @@ import {
   X,
 } from "lucide-react";
 
+const minigameIcons = [
+  { icon: SquareDashed, label: "" },
+  { icon: ArrowUpFromLine, label: "Maximum" },
+  { icon: ArrowDownFromLine, label: "Minimum" },
+  { icon: HeartOff, label: "Srca" },
+  { icon: Gem, label: "Dame" },
+  { icon: Crown, label: "Kralj" },
+  { icon: BriefcaseMedical, label: "Prognoza" },
+  { icon: ToyBrick, label: "Lora" },
+];
+
 export default function ShowcaseBody() {
+  const [lastMinigame, setLastMinigame] = useState(minigameIcons[0]);
+
   return (
     <>
       <table className="w-full table-fixed">
@@ -67,7 +81,7 @@ export default function ShowcaseBody() {
             <td className="py-2">1</td>
             <td className="py-2 underline">0</td>
             <td className="py-2 flex justify-center">
-              <CookingPot />
+              <Gem />
             </td>
           </tr>
           <tr className="border-b-2 text-center border-black mb-4">
@@ -111,22 +125,51 @@ export default function ShowcaseBody() {
               />
               &nbsp;
             </td>
-            <td className="py-2">.</td>
-            <td className="py-2">.</td>
-            <td className="py-2">.</td>
-            <td className="py-2">_</td>
+            <td className="py-2"><input type="number" name="" id="" className="border-2 rounded-md w-full text-center border-gray-300" /></td>
+            <td className="py-2"><input type="number" name="" id="" className="border-2 rounded-md w-full text-center border-gray-300" /></td>
+            <td className="py-2"><input type="number" name="" id="" className="border-2 rounded-md w-full text-center border-gray-300" /></td>
+            <td className="py-2"><input type="number" name="" id="" className="border-2 rounded-md w-full text-center border-black" /></td>
             <td className="py-2 flex justify-center">
-            <SquareDashed />
+              <div className="relative">
+                <div
+                  className="cursor-pointer px-2 flex items-center justify-center"
+                  onClick={() => {
+                    const dropdown = document.querySelector("#minigame-list");
+                    dropdown?.classList.toggle("hidden");
+                  }}
+                >
+                  <lastMinigame.icon />
+                </div>
+                <div
+                  id="minigame-list"
+                  className="absolute z-10 bg-white border rounded mt-1 w-full hidden"
+                >
+                  {minigameIcons.slice(1).map((game) => (
+                    <div
+                      key={game.label}
+                      className="flex items-center p-2 cursor-pointer"
+                      onClick={() => {
+                        setLastMinigame(game);
+                        const dropdown =
+                          document.querySelector("#minigame-list");
+                        dropdown?.classList.add("hidden");
+                      }}
+                    >
+                      <game.icon />
+                    </div>
+                  ))}
+                </div>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
       <div className="grid grid-cols-3 gap-2 mt-4">
-        <p className="bg-black text-white  text-lg font-bold text-center rounded-full py-2.5 col-span-2 cursor-pointer">
+        <p className="bg-black text-white text-lg font-bold text-center rounded-full py-2.5 col-span-2 cursor-pointer">
           Add Next
         </p>
         <p
-          className="bg-black text-white  text-lg font-bold text-center rounded-full py-2.5 cursor-pointer"
+          className="bg-black text-white text-lg font-bold text-center rounded-full py-2.5 cursor-pointer"
           onClick={() => {
             alert("Succesfully saved resoults to database. kao");
           }}
