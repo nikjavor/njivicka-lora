@@ -1,16 +1,7 @@
 import { getPlayerUsernamesFromGame, getGameInfo } from "@/app/lib/data";
 
-export default async function GameInfo({ gameID }: { gameID: number }) {
+export default async function ShowcaseInfo({ gameID }: { gameID: number }) {
   const usernames = await getPlayerUsernamesFromGame(gameID);
-  const players = usernames.map((username, index) => {
-    return (
-      <p
-        key={index}
-      >
-        p{index+1}: {username}
-      </p>
-    );
-  });
   const gameInfo = await getGameInfo(gameID);
   return (
     <div className="flex flex-col justify-center items-center">
@@ -18,7 +9,12 @@ export default async function GameInfo({ gameID }: { gameID: number }) {
       <p className="text-center mt-1 mb-2.5">
         {gameInfo.creation_date.toUTCString().slice(5, 16)}
       </p>
-      <div className="grid grid-cols-2 w-fit mb-4">{players}</div>
+      <div className="grid grid-cols-2 gap-x-6 w-fit mb-4">
+        <p>p1: {usernames[0]}</p>
+        <p>p3: {usernames[2]}</p>
+        <p>p2: {usernames[1]}</p>
+        <p>p4: {usernames[3]}</p>
+      </div>
     </div>
   );
 }

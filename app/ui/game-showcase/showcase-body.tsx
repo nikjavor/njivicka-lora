@@ -54,7 +54,7 @@ export default function ShowcaseBody() {
               <ArrowUpFromLine />
             </td>
           </tr>
-          <tr className="border-b-2 text-center border-black mb-4">
+          <tr className="border-b-2 text-center border-black">
             <td className="py-2 justify-center">2.</td>
             <td className="py-2">-2</td>
             <td className="py-2 underline">3</td>
@@ -64,7 +64,7 @@ export default function ShowcaseBody() {
               <ArrowDownFromLine />
             </td>
           </tr>
-          <tr className="border-b-2 text-center border-black mb-4">
+          <tr className="border-b-2 text-center border-black">
             <td className="py-2 justify-center">3.</td>
             <td className="py-2">-10</td>
             <td className="py-2">3</td>
@@ -74,7 +74,7 @@ export default function ShowcaseBody() {
               <HeartOff />
             </td>
           </tr>
-          <tr className="border-b-2 text-center border-black mb-4">
+          <tr className="border-b-2 text-center border-black">
             <td className="py-2 justify-center">4.</td>
             <td className="py-2">-6</td>
             <td className="py-2">5</td>
@@ -84,7 +84,7 @@ export default function ShowcaseBody() {
               <Gem />
             </td>
           </tr>
-          <tr className="border-b-2 text-center border-black mb-4">
+          <tr className="border-b-2 text-center border-black">
             <td className="py-2 justify-center">5.</td>
             <td className="py-2 underline">-6</td>
             <td className="py-2">9</td>
@@ -94,7 +94,7 @@ export default function ShowcaseBody() {
               <Crown />
             </td>
           </tr>
-          <tr className="border-b-2 text-center border-black mb-4">
+          <tr className="border-b-2 text-center border-black">
             <td className="py-2 justify-center">6.</td>
             <td className="py-2">-3</td>
             <td className="py-2 underline">12</td>
@@ -104,7 +104,7 @@ export default function ShowcaseBody() {
               <BriefcaseMedical />
             </td>
           </tr>
-          <tr className="border-b-2 text-center border-black mb-4">
+          <tr className="border-b-2 text-center border-black">
             <td className="py-2 justify-center">7.</td>
             <td className="py-2">-3</td>
             <td className="py-2">14</td>
@@ -114,7 +114,7 @@ export default function ShowcaseBody() {
               <ToyBrick />
             </td>
           </tr>
-          <tr className="border-b-2 text-center border-black mb-4">
+          <tr className="border-b-2 text-center border-black">
             <td className="py-2 flex justify-center">
               <X
                 color="red"
