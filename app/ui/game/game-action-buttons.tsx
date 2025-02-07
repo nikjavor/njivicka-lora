@@ -47,7 +47,7 @@ export default function AddActionButtons({
 }) {
   return (
     <div
-      className={`flex gap-4 justify-center *:${manrope.className} *:antialiased *:font-bold *:bg-black *:dark:bg-white *:text-white *:dark:text-black *:rounded-full *:py-2 *:px-4`}
+      className={`flex gap-4 justify-center *:${manrope.className} *:antialiased *:font-bold *:bg-black *:text-white *:rounded-full *:py-2 *:px-4`}
     >
       <AddRoundButton gameID={gameID} />
       <SaveButton gameID={gameID} roundScores={roundScores} />
