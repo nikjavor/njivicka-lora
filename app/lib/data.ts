@@ -5,22 +5,6 @@ import { Score } from "./definitions";
 import { neon } from "@neondatabase/serverless";
 const sql = neon(process.env.DATABASE_URL!);
 
-export async function getPlayers(
-  p1: number,
-  p2: number,
-  p3: number,
-  p4: number
-) {
-  try {
-    const response =
-      await sql`SELECT username FROM players WHERE id = ${p1} OR id = ${p2} OR id = ${p3} OR id = ${p4}`;
-    return response;
-  } catch (error) {
-    console.error("Database Error:", error);
-    throw new Error("Failed to fetch revenue data.");
-  }
-}
-
 export async function getPlayerIdsFromGame(gameID: number) {
   try {
     const response =
@@ -47,22 +31,12 @@ export async function getPlayerUsernamesFromGame(gameID: number) {
   try {
     const usernames = [];
     const response =
-      await sql`SELECT player1, player2, player3, player4 FROM games WHERE id = ${gameID}`;
-    for (const playerID of Object.values(response[0])) {
+      await getPlayerIdsFromGame(gameID);
+    for (const playerID of response) {
       const usernameObject = await getPlayerUsername(Number(playerID));
       usernames.push(usernameObject[0].username);
     }
     return usernames; // Array with 4 username strings
-  } catch (error) {
-    console.error("Database Error:", error);
-    throw new Error("Failed to fetch revenue data.");
-  }
-}
-
-export async function getGameTitle(gameID: number) {
-  try {
-    const response = await sql`SELECT title FROM games WHERE id = ${gameID}`;
-    return response[0].title;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch revenue data.");
@@ -89,7 +63,7 @@ export async function isValidGameID(gameID: number) {
   }
 }
 
-export async function getRounds(gameID: number) {
+export async function getRounds(gameID: number) { // V1
   try {
     const response = await sql`SELECT * FROM rounds WHERE game_id = ${gameID}`;
     return response;
@@ -99,7 +73,7 @@ export async function getRounds(gameID: number) {
   }
 }
 
-export async function getRoundScores(roundID: number): Promise<Score[]> {
+export async function getRoundScores(roundID: number): Promise<Score[]> { // V1
   try {
     const response =
       await sql`SELECT * FROM scores WHERE round_id = ${roundID}`;
@@ -115,7 +89,7 @@ export async function getRoundScores(roundID: number): Promise<Score[]> {
   }
 }
 
-export async function getLastRoundOfGame(gameID: number) {
+export async function getLastRoundOfGame(gameID: number) { // ActionBtns
   try {
     const response =
       await sql`SELECT id, round_number FROM rounds WHERE game_id = ${gameID} ORDER BY round_number DESC LIMIT 1`;
@@ -129,7 +103,7 @@ export async function getLastRoundOfGame(gameID: number) {
   }
 }
 
-export async function addRound(gameID: number) {
+export async function addRound(gameID: number) { // ActionBtns
   console.log("go");
   try {
     console.log("trying");
@@ -158,7 +132,7 @@ export async function addRound(gameID: number) {
   }
 }
 
-export async function saveScores(
+export async function saveScores( // ActionBtns
   gameID: number,
   roundScores: { [roundId: number]: { [playerId: number]: number | null } }
 ) {
@@ -172,6 +146,54 @@ export async function saveScores(
         `;
       }
     }
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to save scores.");
+  }
+}
+
+export async function getValidRounds(gameID: number) {
+  try {
+    const response = await sql`
+    SELECT DISTINCT r.id 
+    FROM rounds r 
+    INNER JOIN minigame_selections ms 
+    ON r.id = ms.round_id 
+    WHERE r.game_id = ${gameID}`;
+    return response;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to save scores.");
+  }
+}
+
+export async function getRoundInfo(roundID: number) {
+  try {
+    const response = await sql`
+  SELECT 
+    r.round_number AS round,
+    (SELECT value FROM scores WHERE round_id = r.id AND player_id = g.player1) AS p1,
+    (SELECT value FROM scores WHERE round_id = r.id AND player_id = g.player2) AS p2,
+    (SELECT value FROM scores WHERE round_id = r.id AND player_id = g.player3) AS p3,
+    (SELECT value FROM scores WHERE round_id = r.id AND player_id = g.player4) AS p4,
+    m.short AS mgame,
+    CASE 
+        WHEN r.round_master = g.player1 THEN 0
+        WHEN r.round_master = g.player2 THEN 1
+        WHEN r.round_master = g.player3 THEN 2
+        WHEN r.round_master = g.player4 THEN 3
+    END AS master
+  FROM 
+    rounds r
+  JOIN 
+    games g ON r.game_id = g.id
+  LEFT JOIN 
+    minigame_selections ms ON r.id = ms.round_id
+  LEFT JOIN 
+    minigames m ON ms.minigame_id = m.id
+  WHERE 
+    r.id = ${roundID}`;
+    return response[0];
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to save scores.");
