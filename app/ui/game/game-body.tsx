@@ -1,6 +1,7 @@
 import { Puzzle } from "lucide-react";
 import { getValidRounds } from "@/app/lib/data";
 import TableRow from "./tablerow";
+import TableRowNew from "./tablerow-new";
 
 export default async function GameBody({ gameID }: { gameID: number }) {
   const validRounds = await getValidRounds(gameID);
@@ -22,7 +23,10 @@ export default async function GameBody({ gameID }: { gameID: number }) {
           </th>
         </tr>
       </thead>
-      <tbody>{playedRows}</tbody>
+      <tbody>
+        {playedRows}
+        <TableRowNew />
+      </tbody>
     </table>
   );
 }

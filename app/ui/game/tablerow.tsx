@@ -25,7 +25,6 @@ const minigameIcons: Record<string, React.ElementType> = {
 
 export default async function TableRow({ roundID }: { roundID: number }) {
   const round = await getRoundInfo(roundID);
-  console.log(minigameIcons[round.mgame])
   const IconComponent = minigameIcons[round.mgame] || null;
   return (
     <tr className="border-b-2 text-center border-black">
