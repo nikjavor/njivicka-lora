@@ -1,5 +1,7 @@
 "use server";
 
+import { UnusedMinigames } from "@/app/lib/definitions";
+
 import { neon } from "@neondatabase/serverless";
 const sql = neon(process.env.DATABASE_URL!);
 
@@ -111,7 +113,7 @@ export async function getRoundInfo(roundID: number) {
   }
 }
 
-export async function getUnusedMinigames(gameID: number, playerID: number) {
+export async function getUnusedMinigames(gameID: number, playerID: string): Promise<UnusedMinigames[]> {
   try {
     const response = await sql`
       SELECT m.id, m.minigame, m.short
@@ -122,7 +124,11 @@ export async function getUnusedMinigames(gameID: number, playerID: number) {
         JOIN rounds r ON ms.round_id = r.id
         WHERE r.game_id = ${gameID} AND r.round_master = ${playerID}
       )`;
-    return response;
+      return response.map(row => ({
+        id: row.id,
+        minigame: row.minigame,
+        short: row.short
+      }));
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch unused minigames.");

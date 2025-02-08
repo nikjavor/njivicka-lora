@@ -16,9 +16,10 @@ interface Round {
   selected_minigame: string | null;
 }
 
+
 interface NextRoundButtonProps {
   lastRound?: Round;
-  unusedMinigames?: any[];
+  unusedMinigames?: { short: string }[];
 }
 
 export default function NextRoundButton({
@@ -31,7 +32,7 @@ export default function NextRoundButton({
 
   const handleClick = async () => {
     const paramsCheck = (str: string | undefined) => {
-      if (typeof str === "undefined" || str.trim() === "" || isNaN(str))
+      if (typeof str === "undefined" || str.trim() === "" || isNaN(Number(str)))
         return false;
       const num = Number(str);
       return Number.isInteger(num) && num >= -76 && num <= 512;

@@ -24,4 +24,23 @@ export type Score = {
   player_id: number;
   round_id: number;
   value: number;
-}
+};
+
+export type UnusedMinigames = {
+  id: number;
+  minigame: string;
+  short: string;
+};
+
+export type Round = {
+  id: number;
+  game_id: number;
+  game_name: string;
+  round_number: number;
+  round_master: number;
+  p1: number | null;
+  p2: number | null;
+  p3: number | null;
+  p4: number | null;
+  selected_minigame: string | null;
+};

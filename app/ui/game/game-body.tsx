@@ -3,12 +3,13 @@ import TableRow from "./tablerow";
 import TableRowNew from "./tablerow-new";
 import NextRoundButton from "./addnext-button";
 import { getRoundInfos, getUnusedMinigames, getRoundInfo } from "@/app/lib/data";
+import { UnusedMinigames, Round } from "@/app/lib/definitions";
 
 export default async function GameBody({ gameID }: { gameID: number }) {
   const rounds = await getRoundInfos(gameID);
   const rows = [];
-  let lastRow = null;
-  let unusedMinigames = [];
+  let lastRow: Round | undefined = undefined;
+  let unusedMinigames = [] as UnusedMinigames[];
 
   for (const round of rounds) {
     if (
@@ -20,7 +21,7 @@ export default async function GameBody({ gameID }: { gameID: number }) {
     ) {
       rows.push(<TableRow key={round.id} roundID={round.id} />);
     } else {
-      lastRow = round;
+      lastRow = round as Round;
       unusedMinigames = await getUnusedMinigames(gameID, round.round_master);
       const thisRound = await getRoundInfo(round.id);
       const master = thisRound.master;
