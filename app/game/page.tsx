@@ -1,6 +1,7 @@
 import { isValidGameID } from "@/app/lib/data";
 import GameInfo from "../ui/game/game-info";
 import GameBody from "../ui/game/game-body";
+// import { getValidRounds, getRoundInfo } from "@/app/lib/data";
 
 export default async function Page(props: {
   searchParams?: Promise<{
@@ -9,22 +10,20 @@ export default async function Page(props: {
 }) {
   const searchParams = await props.searchParams;
   const gameID = Number(searchParams?.g) || -1;
-  const isValidGameId = await isValidGameID(gameID);
-  return (
+  const isValidGame = await isValidGameID(gameID);
+  if (isValidGame) {
+    // const validRounds = await getValidRounds(gameID);
+    return (
+      <div className="px-2">
+        <GameInfo gameID={gameID} />
+        <GameBody gameID={gameID} />
+      </div>
+    );
+  } else {
     <div className="px-2">
-      {isValidGameId && (
-        <>
-          <GameInfo gameID={gameID} />
-          <GameBody gameID={gameID} />
-        </>
-      )}
-      {!isValidGameId && (
-        <>
-          <p>Url je napačen: g={gameID}</p>
-          <p>Zgled pravilnega URL-ja:</p>
-          <p>.../game?g=1</p>
-        </>
-      )}
-    </div>
-  );
+      <p>Url je napačen: g={gameID}</p>
+      <p>Zgled pravilnega URL-ja:</p>
+      <p>.../game?g=1</p>
+    </div>;
+  }
 }
