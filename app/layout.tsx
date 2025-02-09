@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${spaceMono.className} antialiased px-1 bg-background-color text-text-color`}>
+        <body className={`${spaceMono.className} antialiased bg-background-color text-text-color`}>
           {children}
         </body >
       </html>
