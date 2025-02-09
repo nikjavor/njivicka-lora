@@ -2,10 +2,6 @@ import type { Metadata } from "next";
 import { spaceMono } from "@/app/ui/fonts";
 import {
   ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton
 } from '@clerk/nextjs'
 import './globals.css'
 
@@ -22,7 +18,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${spaceMono.className} antialiased pt-4 px-1`}>
+        <body className={`${spaceMono.className} antialiased px-1 bg-background-color text-text-color`}>
           {children}
         </body >
       </html>
