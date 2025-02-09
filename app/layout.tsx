@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import { spaceMono } from "@/app/ui/fonts";
-import "./globals.css";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs'
+import './globals.css'
 
 export const metadata: Metadata = {
   title: "Njivička lora",
@@ -9,14 +16,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="en">
-      <body className={`${spaceMono.className} antialiased pt-4 px-1`}>
-        {children}
-      </body>
-    </html>
-  );
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`${spaceMono.className} antialiased pt-4 px-1`}>
+          {children}
+        </body >
+      </html>
+    </ClerkProvider>
+  )
 }
