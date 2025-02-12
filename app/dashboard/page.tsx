@@ -1,7 +1,19 @@
 import { UserButton } from "@clerk/nextjs";
 import { Plus } from "lucide-react";
+import { currentUser } from "@clerk/nextjs/server";
+import GameRow from "./game-row";
+import { getPlayersGames } from "../lib/data";
 
-export default function Page() {
+export default async function Page() {
+  const user = await currentUser();
+  if (!user) {
+    return <div>loading...</div>;
+  }
+  const games = await getPlayersGames(user?.id);
+  const gameRows = games.map((game) => {
+    return <GameRow key={game.id} id={game.id} title={game.title} creation_date={game.creation_date} />;
+  });
+  console.log("username", user?.username);
   return (
     <div>
       <div className="flex items-center bg-gray-200 text-gray-400 gap-4 mb-2 p-4">
@@ -12,7 +24,7 @@ export default function Page() {
             },
           }}
         />
-        <p className="text-4xl">USERNAME</p>
+        <p className="text-4xl">{user?.username}</p>
       </div>
       <div className="p-4">
         <div className="text-left border-2 rounded-md p-4 pb-24 mb-6">
@@ -32,7 +44,9 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <div className="text-left border-2 rounded-md p-4 pb-60"></div>
+        <div className="text-left border-2 rounded-md p-1 h-80">
+          {gameRows}
+        </div>
       </div>
     </div>
   );

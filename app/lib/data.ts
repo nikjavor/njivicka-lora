@@ -213,3 +213,17 @@ export async function addRoundScoresAndMinigame(
     throw new Error("Failed to add scores and minigame.");
   }
 }
+
+export async function getPlayersGames(playerID: string) {
+  try {
+    const response = await sql`
+      SELECT g.id, g.title, g.creation_date
+      FROM games g
+      WHERE g.created_by = ${playerID}
+      ORDER BY g.creation_date DESC`;
+    return response;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch player games.");
+  }
+}
