@@ -1,19 +1,37 @@
 import { UserButton } from "@clerk/nextjs";
-import { Plus } from "lucide-react";
-import { currentUser } from "@clerk/nextjs/server";
+import { currentUser, clerkClient } from "@clerk/nextjs/server";
 import GameRow from "./game-row";
 import { getPlayersGames } from "../lib/data";
+import NewGameForm from "./new-game";
+import AddGameBtn from "./add-game-btn";
 
 export default async function Page() {
   const user = await currentUser();
   if (!user) {
     return <div>loading...</div>;
   }
+
+  const client = await clerkClient();
+  const userData = await client.users.getUserList();
+  const userList = userData.data;
+  // const userList = [{id: 1, username: "test1"}, {id: 2, username: "test2"}];
+  const simplifiedUserList = userList.map((user) => ({
+    id: user.id,
+    username: user.username,
+  }));
+  console.log(simplifiedUserList);
+
   const games = await getPlayersGames(user?.id);
   const gameRows = games.map((game) => {
-    return <GameRow key={game.id} id={game.id} title={game.title} creation_date={game.creation_date} />;
+    return (
+      <GameRow
+        key={game.id}
+        id={game.id}
+        title={game.title}
+        creation_date={game.creation_date}
+      />
+    );
   });
-  console.log("username", user?.username);
   return (
     <div>
       <div className="flex items-center bg-gray-200 text-gray-400 gap-4 mb-2 p-4">
@@ -32,9 +50,7 @@ export default async function Page() {
         </div>
         <div>
           <div className="flex gap-1 mb-1">
-            <div className="border-2 p-1 rounded-md">
-              <Plus className="text-gray-400" />
-            </div>
+            <AddGameBtn />
             <div className="border-2 rounded-md w-full">
               <input
                 type="text"
@@ -44,9 +60,13 @@ export default async function Page() {
             </div>
           </div>
         </div>
-        <div className="text-left border-2 rounded-md p-1 h-80">
-          {gameRows}
-        </div>
+        <div className="text-left border-2 rounded-md p-1 h-80">{gameRows}</div>
+      </div>
+      <div
+        id="new-game-form"
+        className="hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5"
+      >
+        <NewGameForm userList={simplifiedUserList} />
       </div>
     </div>
   );
