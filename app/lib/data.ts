@@ -1,6 +1,6 @@
 "use server";
 
-import { UnusedMinigames } from "@/app/lib/definitions";
+import { simplifiedUserList, UnusedMinigames } from "@/app/lib/definitions";
 
 import { neon } from "@neondatabase/serverless";
 const sql = neon(process.env.DATABASE_URL!);
@@ -246,9 +246,12 @@ export async function getPlayersGameIds(playerID: string | null) {
 }
 
 
-export async function createGame(creatorID: string, gameTitle: string, players: string[], userList: object[]) {
+export async function createGame(creatorID: string, gameTitle: string, players: string[], userList: simplifiedUserList) {
   const playerIDs = players.map(player => {
     const user = userList.find(user => user.username === player);
+    if (!user) {
+      throw new Error(`Failed to find player ID for username: ${player}`);
+    }
     return user.id;
   });
 
