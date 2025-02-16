@@ -9,8 +9,8 @@ export default function NewGameForm({
   userList,
   creator,
 }: {
-  userList: object[];
-  creator: string;
+  userList: { id: string; username: string | null }[];
+  creator: string | null;
 }) {
   const [gameTitle, setGameTitle] = useState("");
   const [players, setPlayers] = useState(["", "", "", ""]);
@@ -63,12 +63,18 @@ export default function NewGameForm({
     return true;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const creatorID = userList.find((user) => user.username === creator).id;
+    const creatorID = userList.find((user) => user.username === creator)?.id;
+    if (typeof creatorID === "undefined") {
+      alert("Bro, you don't exist! JK, something went wrong.");
+      return false;
+    }
     if (validateForm()) {
       const submit = document.querySelector("button[type=submit]");
-      submit.textContent = "Loading...";
+      if (submit) {
+        submit.textContent = "Loading...";
+      }
 
       const buttons = document.querySelectorAll("button");
       buttons.forEach((button) => {
