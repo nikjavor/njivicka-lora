@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
+    <ClerkProvider publishableKey="pk_test_b3Blbi1zaHJpbXAtNjYuY2xlcmsuYWNjb3VudHMuZGV2JA">
       <html lang="en">
         <body className={`${spaceMono.className} antialiased bg-background-color text-text-color`}>
           {children}
