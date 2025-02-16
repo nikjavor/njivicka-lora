@@ -2,7 +2,11 @@ import { Puzzle } from "lucide-react";
 import TableRow from "./tablerow";
 import TableRowNew from "./tablerow-new";
 import NextRoundButton from "./addnext-button";
-import { getRoundInfos, getUnusedMinigames, getRoundInfo } from "@/app/lib/data";
+import {
+  getRoundInfos,
+  getUnusedMinigames,
+  getRoundInfo,
+} from "@/app/lib/data";
 import { UnusedMinigames, Round } from "@/app/lib/definitions";
 
 export default async function GameBody({ gameID }: { gameID: number }) {
@@ -25,7 +29,13 @@ export default async function GameBody({ gameID }: { gameID: number }) {
       unusedMinigames = await getUnusedMinigames(gameID, round.round_master);
       const thisRound = await getRoundInfo(round.id);
       const master = thisRound.master;
-      rows.push(<TableRowNew key={round.id} unusedMinigames={unusedMinigames} master={master} />);
+      rows.push(
+        <TableRowNew
+          key={round.id}
+          unusedMinigames={unusedMinigames}
+          master={master}
+        />
+      );
       break;
     }
   }

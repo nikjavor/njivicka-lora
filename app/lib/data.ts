@@ -227,3 +227,83 @@ export async function getPlayersGames(playerID: string) {
     throw new Error("Failed to fetch player games.");
   }
 }
+
+export async function getPlayersGameIds(playerID: string | null) {
+  try {
+    if (typeof playerID !== "string") {
+      throw new Error("Invalid player ID");
+    }
+    const response = await sql`
+      SELECT g.id
+      FROM games g
+      WHERE g.created_by = ${playerID}
+      ORDER BY g.creation_date DESC`;
+    return response.map((row) => row.id);
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch player game IDs.");
+  }
+}
+
+
+export async function createGame(creatorID: string, gameTitle: string, players: string[], userList: object[]) {
+  const playerIDs = players.map(player => {
+    const user = userList.find(user => user.username === player);
+    return user.id;
+  });
+
+  async function createGameRow(creatorID: string, gameTitle: string, playerIDs: string[]){
+    try {
+      const response = await sql`
+        INSERT INTO games (title, created_by, player1, player2, player3, player4)
+        VALUES (${gameTitle}, ${creatorID}, ${playerIDs[0]}, ${playerIDs[1]}, ${playerIDs[2]}, ${playerIDs[3]})
+        RETURNING id`;
+      return response[0].id;
+    } catch (error) {
+      console.error("Database Error:", error);
+      throw new Error("Failed to create game row.");
+    }
+  }
+
+  async function createScoresForRound(roundID: number, playerIDs: string[]) {
+    try {
+      for (const playerID of playerIDs) {
+        await sql`
+          INSERT INTO scores (round_id, player_id)
+          VALUES (${roundID}, ${playerID})
+        `;
+      }
+    } catch (error) {
+      console.error("Database Error:", error);
+      throw new Error("Failed to create scores for round.");
+    }
+  }
+
+  async function createRound(gameID: number, roundNumber: number, roundMaster: string) {
+    try {
+      const response = await sql`
+        INSERT INTO rounds (game_id, round_number, round_master)
+        VALUES (${gameID}, ${roundNumber}, ${roundMaster})
+        RETURNING id
+      `;
+      return response[0].id;
+    } catch (error) {
+      console.error("Database Error:", error);
+      throw new Error("Failed to create round.");
+    }
+  }
+
+  try {
+    const gameID = await createGameRow(creatorID, gameTitle, playerIDs);
+
+    for (let i = 1; i <= 28; i++) {
+      const roundMaster = playerIDs[(i - 1) % 4];
+      const roundID = await createRound(gameID, i, roundMaster);
+      await createScoresForRound(roundID, playerIDs);
+    }
+    return gameID;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to create game.");
+  }
+}

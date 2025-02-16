@@ -1,4 +1,4 @@
-export default async function ShowcaseInfo() {
+export default function ShowcaseInfo() {
   const today = new Date();
   return (
     <div className="flex flex-col justify-center items-center">

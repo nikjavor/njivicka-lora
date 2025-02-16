@@ -14,7 +14,6 @@ export default async function Page() {
   const client = await clerkClient();
   const userData = await client.users.getUserList();
   const userList = userData.data;
-  // const userList = [{id: 1, username: "test1"}, {id: 2, username: "test2"}];
   const simplifiedUserList = userList.map((user) => ({
     id: user.id,
     username: user.username,
@@ -46,7 +45,7 @@ export default async function Page() {
       </div>
       <div className="p-4">
         <div className="text-left border-2 rounded-md p-4 pb-24 mb-6">
-          <p className="text-gray-400">Player stats:</p>
+          <p className="text-gray-400">Player stats: (coming soon)</p>
         </div>
         <div>
           <div className="flex gap-1 mb-1">
@@ -60,13 +59,15 @@ export default async function Page() {
             </div>
           </div>
         </div>
-        <div className="text-left border-2 rounded-md p-1 h-80">{gameRows}</div>
+        <div className="text-left border-2 rounded-md p-1 min-h-60">
+          {gameRows}
+        </div>
       </div>
       <div
         id="new-game-form"
         className="hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5"
       >
-        <NewGameForm userList={simplifiedUserList} />
+        <NewGameForm userList={simplifiedUserList} creator={user.username} />
       </div>
     </div>
   );
