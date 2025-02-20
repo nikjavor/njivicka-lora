@@ -5,7 +5,7 @@ import { MAX_GAME_TITLE_LENGTH } from "@/app/lib/constants";
 import { createGame, doesUsernameExist, getUserUsername } from "@/app/lib/data";
 import { redirect } from "next/navigation";
 
-export default function NewGameForm({ creatorID }: { creatorID: string | null }) {
+export default function NewGameForm({ creatorID }: { creatorID: string }) {
   const [gameTitle, setGameTitle] = useState("");
   const [players, setPlayers] = useState(["", "", "", ""]);
 
