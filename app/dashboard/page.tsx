@@ -4,6 +4,7 @@ import NewGameForm from "./new-game-form";
 import AddGameBtn from "./add-game-btn";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import SignOut from "./sign-out-btn";
 
 export default async function Page() {
   const supabase = await createClient();
@@ -28,8 +29,9 @@ export default async function Page() {
   });
   return (
     <div>
-      <div className="flex items-center bg-gray-200 text-gray-400 gap-4 mb-2 p-4">
+      <div className="flex items-center justify-between bg-gray-200 text-gray-400 gap-4 mb-2 p-4">
         <p className="text-4xl">{username}</p>
+        <SignOut />
       </div>
       <div className="p-4">
         <div className="text-left border-2 rounded-md p-4 pb-24 mb-6">
