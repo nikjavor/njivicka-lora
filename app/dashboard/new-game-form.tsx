@@ -2,16 +2,10 @@
 
 import React, { useState } from "react";
 import { MAX_GAME_TITLE_LENGTH } from "@/app/lib/constants";
-import { createGame } from "@/app/lib/data";
+import { createGame, doesUsernameExist, getUserUsername } from "@/app/lib/data";
 import { redirect } from "next/navigation";
 
-export default function NewGameForm({
-  userList,
-  creator,
-}: {
-  userList: { id: string; username: string | null }[];
-  creator: string | null;
-}) {
+export default function NewGameForm({ creatorID }: { creatorID: string | null }) {
   const [gameTitle, setGameTitle] = useState("");
   const [players, setPlayers] = useState(["", "", "", ""]);
 
@@ -42,15 +36,14 @@ export default function NewGameForm({
       return false;
     }
 
-    if (!players.some((player) => player === creator)) {
+    if (!players.some(async (player) => player === await getUserUsername(creatorID))) {
       alert("Bro, you gotta be in the game too!");
       return false;
     }
 
-    const playersExist = players.every((player) =>
-      userList.some((user) => user.username === player)
-    );
-    if (!playersExist) {
+    if (
+      !players.every(async (player) => await doesUsernameExist(player))
+    ) {
       alert("Bro, you can't play with people who don't exist!");
       return false;
     }
@@ -65,8 +58,7 @@ export default function NewGameForm({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const creatorID = userList.find((user) => user.username === creator)?.id;
-    if (typeof creatorID === "undefined") {
+    if (typeof creatorID !== "string") {
       alert("Bro, you don't exist! JK, something went wrong.");
       return false;
     }
@@ -81,7 +73,9 @@ export default function NewGameForm({
         button.disabled = true;
       });
 
-      const gameID = await createGame(creatorID, gameTitle, players, userList);
+      console.log("Creating game...");
+      const gameID = await createGame(creatorID, gameTitle, players);
+      console.log("Game created:", gameID);
       redirect(`/game/?g=${gameID}`);
     }
     console.log("Game Title:", gameTitle);

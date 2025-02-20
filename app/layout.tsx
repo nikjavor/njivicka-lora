@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { spaceMono } from "@/app/ui/fonts";
-import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,14 +13,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY} afterSignOutUrl={"/"}>
-      <html lang="en">
-        <body
-          className={`${spaceMono.className} antialiased bg-background-color text-text-color`}
-        >
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body
+        className={`${spaceMono.className} antialiased bg-background-color text-text-color`}
+      >
+        {children}
+      </body>
+    </html>
   );
 }

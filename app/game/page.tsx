@@ -1,9 +1,9 @@
 import { getPlayersGameIds } from "@/app/lib/data";
-import GameInfo from "../ui/game/game-info";
-import GameBody from "../ui/game/game-body";
-import { auth } from "@clerk/nextjs/server";
+import GameInfo from "./game-info";
+import GameBody from "./game-body";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Page(props: {
   searchParams?: Promise<{
@@ -13,12 +13,15 @@ export default async function Page(props: {
   const searchParams = await props.searchParams;
   const gameID = Number(searchParams?.g) || -1;
 
-  const user = await auth();
-  if (!user) {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data.user) {
     redirect("/");
   }
+  const user = data.user;
 
-  const usersGames = await getPlayersGameIds(user.userId);
+  const usersGames = await getPlayersGameIds(user.id);
   if (usersGames.includes(gameID)) {
     return (
       <div className="px-2">

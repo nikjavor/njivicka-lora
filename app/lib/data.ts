@@ -1,6 +1,6 @@
 "use server";
 
-import { simplifiedUserList, UnusedMinigames } from "@/app/lib/definitions";
+import { UnusedMinigames } from "@/app/lib/definitions";
 
 import { neon } from "@neondatabase/serverless";
 const sql = neon(process.env.DATABASE_URL!);
@@ -245,15 +245,27 @@ export async function getPlayersGameIds(playerID: string | null) {
   }
 }
 
+export async function getUserIdFromUsername(username: string) {
+  try {
+    console.log("Username:", username);
+    const response = await sql`SELECT user_id FROM players WHERE username = ${username}`;
+    return response[0].user_id;
+  }
+  catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch user ID from username.");
+  }
+}
 
-export async function createGame(creatorID: string, gameTitle: string, players: string[], userList: simplifiedUserList) {
-  const playerIDs = players.map(player => {
-    const user = userList.find(user => user.username === player);
-    if (!user) {
+export async function createGame(creatorID: string, gameTitle: string, players: string[]) {
+  const playerIDs = [];
+  for (const player of players) {
+    const playerID = await getUserIdFromUsername(player);
+    if (!playerID) {
       throw new Error(`Failed to find player ID for username: ${player}`);
     }
-    return user.id;
-  });
+    playerIDs.push(playerID);
+  }
 
   async function createGameRow(creatorID: string, gameTitle: string, playerIDs: string[]){
     try {
@@ -308,5 +320,37 @@ export async function createGame(creatorID: string, gameTitle: string, players: 
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to create game.");
+  }
+}
+
+export async function getUserUsername(userID: string) {
+  try {
+    const response = await sql`SELECT username FROM players WHERE user_id = ${userID}`;
+    return response[0].username;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch user username.");
+  }
+}
+
+export async function doesUserExist(userID: string): Promise<boolean> {
+  try {
+    const response = await sql`SELECT COUNT(*) FROM players WHERE user_id = ${userID}`;
+    console.log("Response:", response);
+    return response[0] == 1 ? true : false;
+  } catch (error) {
+    console.error("Error:", error);
+    throw new Error("Failed to check if Supabase user exists.");
+  }
+}
+
+export async function doesUsernameExist(userID: string): Promise<boolean> {
+  try {
+    const response = await sql`SELECT COUNT(*) FROM players WHERE user_id = ${userID}`;
+    console.log("Response:", response);
+    return response[0] == 1 ? true : false;
+  } catch (error) {
+    console.error("Error:", error);
+    throw new Error("Failed to check if Supabase user exists.");
   }
 }

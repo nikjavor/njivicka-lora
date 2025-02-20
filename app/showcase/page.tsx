@@ -1,5 +1,5 @@
-import ShowcaseBody from "../ui/showcase/showcase-body";
-import ShowcaseInfo from "../ui/showcase/showcase-info";
+import ShowcaseBody from "./showcase-body";
+import ShowcaseInfo from "./showcase-info";
 
 export default async function Page() {
   return (

@@ -1,24 +1,19 @@
-import { UserButton } from "@clerk/nextjs";
-import { currentUser, clerkClient } from "@clerk/nextjs/server";
 import GameRow from "./game-row";
-import { getPlayersGames } from "../lib/data";
-import NewGameForm from "./new-game";
+import { getPlayersGames, getUserUsername } from "@/app/lib/data";
+import NewGameForm from "./new-game-form";
 import AddGameBtn from "./add-game-btn";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
-  const user = await currentUser();
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
+  const user = data?.user;
   if (!user) {
-    return <div>loading...</div>;
+    redirect("/");
   }
 
-  const client = await clerkClient();
-  const userData = await client.users.getUserList();
-  const userList = userData.data;
-  const simplifiedUserList = userList.map((user) => ({
-    id: user.id,
-    username: user.username,
-  }));
-  console.log(simplifiedUserList);
+  const username = await getUserUsername(user?.id);
 
   const games = await getPlayersGames(user?.id);
   const gameRows = games.map((game) => {
@@ -34,14 +29,7 @@ export default async function Page() {
   return (
     <div>
       <div className="flex items-center bg-gray-200 text-gray-400 gap-4 mb-2 p-4">
-        <UserButton
-          appearance={{
-            elements: {
-              userButtonAvatarBox: "w-10 h-10",
-            },
-          }}
-        />
-        <p className="text-4xl">{user?.username}</p>
+        <p className="text-4xl">{username}</p>
       </div>
       <div className="p-4">
         <div className="text-left border-2 rounded-md p-4 pb-24 mb-6">
@@ -67,7 +55,7 @@ export default async function Page() {
         id="new-game-form"
         className="hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5"
       >
-        <NewGameForm userList={simplifiedUserList} creator={user.username} />
+        <NewGameForm creatorID={user.id} />
       </div>
     </div>
   );

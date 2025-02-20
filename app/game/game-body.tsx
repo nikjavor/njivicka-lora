@@ -15,6 +15,7 @@ export default async function GameBody({ gameID }: { gameID: number }) {
   let lastRow: Round | undefined = undefined;
   let unusedMinigames = [] as UnusedMinigames[];
 
+
   for (const round of rounds) {
     if (
       round.p1 !== null &&
