@@ -337,7 +337,7 @@ export async function doesUserExist(userID: string): Promise<boolean> {
   try {
     const response = await sql`SELECT COUNT(*) FROM players WHERE user_id = ${userID}`;
     console.log("Response:", response);
-    return response[0] == 1 ? true : false;
+    return response[0].count == 1 ? true : false;
   } catch (error) {
     console.error("Error:", error);
     throw new Error("Failed to check if Supabase user exists.");
@@ -348,7 +348,7 @@ export async function doesUsernameExist(userID: string): Promise<boolean> {
   try {
     const response = await sql`SELECT COUNT(*) FROM players WHERE user_id = ${userID}`;
     console.log("Response:", response);
-    return response[0] == 1 ? true : false;
+    return response[0].count == 1 ? true : false;
   } catch (error) {
     console.error("Error:", error);
     throw new Error("Failed to check if Supabase user exists.");
