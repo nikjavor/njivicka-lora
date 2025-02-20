@@ -213,3 +213,144 @@ export async function addRoundScoresAndMinigame(
     throw new Error("Failed to add scores and minigame.");
   }
 }
+
+export async function getPlayersGames(playerID: string) {
+  try {
+    const response = await sql`
+      SELECT g.id, g.title, g.creation_date
+      FROM games g
+      WHERE g.created_by = ${playerID}
+      ORDER BY g.creation_date DESC`;
+    return response;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch player games.");
+  }
+}
+
+export async function getPlayersGameIds(playerID: string | null) {
+  try {
+    if (typeof playerID !== "string") {
+      throw new Error("Invalid player ID");
+    }
+    const response = await sql`
+      SELECT g.id
+      FROM games g
+      WHERE g.created_by = ${playerID}
+      ORDER BY g.creation_date DESC`;
+    return response.map((row) => row.id);
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch player game IDs.");
+  }
+}
+
+export async function getUserIdFromUsername(username: string) {
+  try {
+    console.log("Username:", username);
+    const response = await sql`SELECT user_id FROM players WHERE username = ${username}`;
+    return response[0].user_id;
+  }
+  catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch user ID from username.");
+  }
+}
+
+export async function createGame(creatorID: string, gameTitle: string, players: string[]) {
+  const playerIDs = [];
+  for (const player of players) {
+    const playerID = await getUserIdFromUsername(player);
+    if (!playerID) {
+      throw new Error(`Failed to find player ID for username: ${player}`);
+    }
+    playerIDs.push(playerID);
+  }
+
+  async function createGameRow(creatorID: string, gameTitle: string, playerIDs: string[]){
+    try {
+      const response = await sql`
+        INSERT INTO games (title, created_by, player1, player2, player3, player4)
+        VALUES (${gameTitle}, ${creatorID}, ${playerIDs[0]}, ${playerIDs[1]}, ${playerIDs[2]}, ${playerIDs[3]})
+        RETURNING id`;
+      return response[0].id;
+    } catch (error) {
+      console.error("Database Error:", error);
+      throw new Error("Failed to create game row.");
+    }
+  }
+
+  async function createScoresForRound(roundID: number, playerIDs: string[]) {
+    try {
+      for (const playerID of playerIDs) {
+        await sql`
+          INSERT INTO scores (round_id, player_id)
+          VALUES (${roundID}, ${playerID})
+        `;
+      }
+    } catch (error) {
+      console.error("Database Error:", error);
+      throw new Error("Failed to create scores for round.");
+    }
+  }
+
+  async function createRound(gameID: number, roundNumber: number, roundMaster: string) {
+    try {
+      const response = await sql`
+        INSERT INTO rounds (game_id, round_number, round_master)
+        VALUES (${gameID}, ${roundNumber}, ${roundMaster})
+        RETURNING id
+      `;
+      return response[0].id;
+    } catch (error) {
+      console.error("Database Error:", error);
+      throw new Error("Failed to create round.");
+    }
+  }
+
+  try {
+    const gameID = await createGameRow(creatorID, gameTitle, playerIDs);
+
+    for (let i = 1; i <= 28; i++) {
+      const roundMaster = playerIDs[(i - 1) % 4];
+      const roundID = await createRound(gameID, i, roundMaster);
+      await createScoresForRound(roundID, playerIDs);
+    }
+    return gameID;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to create game.");
+  }
+}
+
+export async function getUserUsername(userID: string) {
+  try {
+    const response = await sql`SELECT username FROM players WHERE user_id = ${userID}`;
+    return response[0].username;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch user username.");
+  }
+}
+
+export async function doesUserExist(userID: string): Promise<boolean> {
+  try {
+    const response = await sql`SELECT COUNT(*) FROM players WHERE user_id = ${userID}`;
+    console.log("Response:", response);
+    return response[0].count == 1 ? true : false;
+  } catch (error) {
+    console.error("Error:", error);
+    throw new Error("Failed to check if Supabase user exists.");
+  }
+}
+
+export async function doesUsernameExist(userID: string): Promise<boolean> {
+  try {
+    const response = await sql`SELECT COUNT(*) FROM players WHERE user_id = ${userID}`;
+    console.log("Response:", response);
+    return response[0].count == 1 ? true : false;
+  } catch (error) {
+    console.error("Error:", error);
+    throw new Error("Failed to check if Supabase user exists.");
+  }
+}

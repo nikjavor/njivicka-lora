@@ -44,3 +44,8 @@ export type Round = {
   p4: number | null;
   selected_minigame: string | null;
 };
+
+export type simplifiedUserList = {
+  id: string;
+  username: string | null;
+}[];
