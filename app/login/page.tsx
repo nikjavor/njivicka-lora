@@ -37,7 +37,7 @@ export default async function LoginPage() {
           <button
             type="submit"
             formAction={login}
-            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-accent-color hover:bg-accent-color-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-accent-color focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Log in
           </button>
@@ -46,7 +46,8 @@ export default async function LoginPage() {
           <button
             type="submit"
             formAction={signup}
-            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-accent-color hover:bg-accent-color-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="line-through w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            disabled
           >
             Sign up
           </button>
