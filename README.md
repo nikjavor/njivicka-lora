@@ -2,7 +2,9 @@
 Aplikacija za sledenje rezultatom Lore.
 Narejeno za ekipo iz Njivic.
 
-Dostopna na: [lora.nikjavor.si][website]
+Dostopna na: [lora.nikjavor.si][website].
+
+Za ustvarjanje profila mi piši na [mail](mailto:nik.javor+lora25@proton.me).
 
 ## Kratek opis
 Njivička Lora je aplikacija narejena za sledenje rezultatom iger Lore. Narejena je primarno za kolege iz Njivic, vendar bo kasneje dostopna vsem.
@@ -25,9 +27,9 @@ Njivička Lora je aplikacija narejena za sledenje rezultatom iger Lore. Narejena
 - Dashboard
   - Statistika igralca
   - Game search
+  - Oznacene zakljucene igre
 - Ostalo
   - Možnost ustvarjanja profilov
-
 
 
 [website]: https://lora.nikjavor.si
