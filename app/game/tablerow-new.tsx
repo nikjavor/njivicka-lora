@@ -54,73 +54,42 @@ export default function TableRowNew({
   );
 
   return (
-    <tr className="border-b-2 text-center border-black">
-      <td className="py-2 flex justify-center">
+    <tr className="border-b-2 text-center border-neutral-dark bg-white hover:bg-neutral-light transition">
+      {/* Delete Round Button */}
+      <td className="py-3.5 flex justify-center">
         <X
-          color="red"
-          className="cursor-pointer"
+          size={28}
+          className="mr-3 cursor-pointer text-danger hover:text-danger-dark transition"
           onClick={() => {
             confirm("Res želiš izbrisati ta krog?");
           }}
         />
-        &nbsp;
       </td>
-      <td className="py-2">
-        <input
-          type="number"
-          onChange={(e) => {
-            handleInput(e.target.value, 1);
-          }}
-          id="0"
-          defaultValue={searchParams.get("p1")?.toString()}
-          className={clsx("border-2 rounded-md w-full text-center", {
-            "border-black": master === 0,
-          })}
-        />
-      </td>
-      <td className="py-2">
-        <input
-          type="number"
-          onChange={(e) => {
-            handleInput(e.target.value, 2);
-          }}
-          id="1"
-          defaultValue={searchParams.get("p2")?.toString()}
-          className={clsx("border-2 rounded-md w-full text-center", {
-            "border-black": master === 1,
-          })}
-        />
-      </td>
-      <td className="py-2">
-        <input
-          type="number"
-          onChange={(e) => {
-            handleInput(e.target.value, 3);
-          }}
-          id="2"
-          defaultValue={searchParams.get("p3")?.toString()}
-          className={clsx("border-2 rounded-md w-full text-center", {
-            "border-black": master === 2,
-          })}
-        />
-      </td>
-      <td className="py-2">
-        <input
-          type="number"
-          onChange={(e) => {
-            handleInput(e.target.value, 4);
-          }}
-          id="3"
-          defaultValue={searchParams.get("p4")?.toString()}
-          className={clsx("border-2 rounded-md w-full text-center ", {
-            "border-black": master === 3,
-          })}
-        />
-      </td>
+
+      {/* Player Inputs */}
+      {[0, 1, 2, 3].map((playerIndex) => (
+        <td key={playerIndex} className="py-2">
+          <input
+            type="number"
+            onChange={(e) => handleInput(e.target.value, playerIndex + 1)}
+            id={`player${playerIndex}`}
+            defaultValue={searchParams.get(`p${playerIndex + 1}`)?.toString()}
+            className={clsx(
+              "border-2 rounded-md w-full text-center p-2 focus:outline-none focus:ring-2 ",
+              {
+                "border-secondary font-bold focus:ring-secondary-light": master === playerIndex,
+                "border-neutral focus:ring-neutral": master !== playerIndex,
+              }
+            )}
+          />
+        </td>
+      ))}
+
+      {/* Minigame Selection */}
       <td className="py-2 flex justify-center">
         <div className="relative">
           <div
-            className="cursor-pointer px-2 flex items-center justify-center"
+            className="cursor-pointer px-2 flex items-center justify-center text-secondary hover:text-secondary-dark transition"
             onClick={() => {
               const dropdown = document.querySelector("#minigame-list");
               dropdown?.classList.toggle("hidden");
@@ -130,12 +99,12 @@ export default function TableRowNew({
           </div>
           <div
             id="minigame-list"
-            className="absolute z-10 bg-white border rounded mt-1 w-full hidden"
+            className="absolute z-10 bg-white border border-neutral-dark rounded-md mt-1 hidden shadow-md"
           >
             {filteredMinigames.map((game) => (
               <div
                 key={game.label}
-                className="flex items-center p-2 cursor-pointer"
+                className="flex items-center p-2 gap-2 cursor-pointer hover:bg-neutral-light transition"
                 onClick={() => {
                   setMinigame(game);
                   const params = new URLSearchParams(searchParams);
@@ -145,7 +114,8 @@ export default function TableRowNew({
                   dropdown?.classList.add("hidden");
                 }}
               >
-                <game.icon />
+                <game.icon className="text-secondary" />
+                {game.label}
               </div>
             ))}
           </div>

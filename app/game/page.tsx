@@ -24,11 +24,14 @@ export default async function Page(props: {
   const usersGames = await getPlayersGameIds(user.id);
   if (usersGames.includes(gameID)) {
     return (
-      <div className="px-2">
+      <div className="min-h-screen bg-neutral-light px-4">
         <GameInfo gameID={gameID} />
         <GameBody gameID={gameID} />
-        <Link href="/dashboard" className="mt-10 inline-block text-gray-500 hover:text-gray-700">
-          &larr; Back to Dashboard
+        <Link
+          href="/dashboard"
+          className="mt-10 inline-block text-secondary hover:text-secondary-dark transition"
+        >
+          &larr; Nazaj na nadzorno ploščo
         </Link>
       </div>
     );

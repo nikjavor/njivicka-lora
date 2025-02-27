@@ -13,9 +13,10 @@ export default function SignOut() {
   return (
     <button
       onClick={handleSignOut}
-      className="bg-gray-300 hover:bg-gray-400 transition-colors text-white px-2 py-1 rounded-md"
+      className="px-4 py-2 bg-secondary text-white rounded-md shadow-md transition hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-secondary-light"
     >
-      Sign Out
+      Odjava
     </button>
   );
 }
+
