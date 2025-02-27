@@ -76,10 +76,10 @@ export default function NextRoundButton({
 
   return (
     <button
-      className="bg-black text-white text-lg font-bold text-center rounded-full py-2.5 col-span-2"
+      className="bg-primary text-white text-lg font-bold text-center rounded-md py-2 col-span-2 hover:bg-primary-dark transition"
       onClick={handleClick}
     >
-      Next Round
+      Naslednji krog
     </button>
   );
 }

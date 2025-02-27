@@ -28,34 +28,46 @@ export default async function Page() {
     );
   });
   return (
-    <div>
-      <div className="flex items-center justify-between bg-gray-200 text-gray-400 gap-4 mb-2 p-4">
-        <p className="text-4xl">{username}</p>
+    <div className="min-h-screen bg-neutral-light">
+      {/* Header */}
+      <div className="flex items-center justify-between bg-primary text-white px-6 py-4 shadow-md">
+        <p className="text-3xl font-semibold">Uporabnik: {username}</p>
         <SignOut />
       </div>
-      <div className="p-4">
-        <div className="text-left border-2 rounded-md p-4 pb-24 mb-6">
-          <p className="text-gray-400">Player stats: (coming soon)</p>
+
+      {/* Main Content */}
+      <div className="p-6 max-w-4xl mx-auto">
+        {/* Stats Box */}
+        <div className="bg-white border border-neutral-dark rounded-lg p-4 mb-6 shadow-md">
+          <p className="text-neutral text-center">Statistika igralca: <span className="text-gray-400">(Prihaja kmalu)</span></p>
         </div>
-        <div>
-          <div className="flex gap-1 mb-1">
-            <AddGameBtn />
-            <div className="border-2 rounded-md w-full">
-              <input
-                type="text"
-                placeholder=" Search games..."
-                className=" w-full h-full"
-              />
-            </div>
+
+        {/* Add Game & Search */}
+        <div className="flex gap-2 mb-4">
+          <AddGameBtn />
+          <div className="border border-neutral rounded-md w-full bg-white flex items-center shadow-sm">
+            <input
+              type="text"
+              placeholder="Išči igre..."
+              className="w-full h-full py-2 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light"
+            />
           </div>
         </div>
-        <div className="text-left border-2 rounded-md p-1 min-h-60">
-          {gameRows}
+
+        {/* Game List */}
+        <div className="bg-white border border-neutral-dark rounded-md p-3 shadow-md min-h-60">
+          {gameRows.length > 0 ? (
+            gameRows
+          ) : (
+            <p className="text-center text-neutral-dark">Ni ustvarjenih iger.</p>
+          )}
         </div>
       </div>
+
+      {/* New Game Form (Hidden by Default) */}
       <div
         id="new-game-form"
-        className="hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5"
+        className="hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5 max-w-lg bg-white p-6 rounded-lg shadow-lg border border-neutral-dark"
       >
         <NewGameForm creatorID={user.id} />
       </div>

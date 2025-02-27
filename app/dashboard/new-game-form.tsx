@@ -83,64 +83,60 @@ export default function NewGameForm({ creatorID }: { creatorID: string }) {
   };
 
   return (
-    <div className="bg-white">
-      <div id="game-form-main-div" className="mt-10 p-6 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold mb-4">Add New Game</h1>
+    <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+      <div className="bg-white border border-neutral-dark p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h1 className="text-3xl font-bold text-primary mb-4 text-center">Dodaj novo igro</h1>
         <form onSubmit={handleSubmit}>
+          {/* Game Title Input */}
           <div className="mb-4">
-            <label
-              htmlFor="gameTitle"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Game Title:
+            <label htmlFor="gameTitle" className="block text-sm font-medium text-neutral-dark">
+              Ime igre:
             </label>
             <input
               type="text"
               id="gameTitle"
               value={gameTitle}
               onChange={handleTitleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-neutral rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-light sm:text-sm bg-neutral-light"
             />
           </div>
+
+          {/* Players Input */}
           <div className="mb-4">
-            <h2 className="text-xl font-semibold mb-2">Players</h2>
+            <h2 className="text-xl font-semibold text-primary mb-2">Igralci</h2>
             {players.map((player, index) => (
               <div key={index} className="mb-2">
-                <label
-                  htmlFor={`player${index + 1}`}
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Player {index + 1}:
+                <label htmlFor={`player${index + 1}`} className="block text-sm font-medium text-neutral-dark">
+                  Igralec {index + 1}:
                 </label>
                 <input
                   type="text"
                   id={`player${index + 1}`}
                   value={player}
                   onChange={(e) => handlePlayerChange(index, e.target.value)}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full px-3 py-2 border border-neutral rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-light sm:text-sm bg-neutral-light"
                 />
               </div>
             ))}
           </div>
-          <div className="flex gap-2">
+
+          {/* Buttons */}
+          <div className="flex gap-3">
             <button
               type="button"
-              className="inline-flex grow-0 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-1/2 py-2 px-4 bg-secondary text-white rounded-md shadow-sm text-sm font-medium hover:bg-secondary-dark transition focus:outline-none focus:ring-2 focus:ring-secondary-light"
               onClick={closeForm}
             >
-              Close
+              Zapri
             </button>
             <button
               type="submit"
-              className="inline-flex grow justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-1/2 py-2 px-4 bg-primary text-white rounded-md shadow-sm text-sm font-medium hover:bg-primary-dark transition focus:outline-none focus:ring-2 focus:ring-primary-light"
             >
-              Add Game
+              Dodaj igro
             </button>
           </div>
         </form>
-      </div>
-      <div id="game-form-loading" className="hidden">
-        Loading
       </div>
     </div>
   );

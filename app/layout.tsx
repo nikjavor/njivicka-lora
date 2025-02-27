@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${spaceMono.className} antialiased bg-background-color text-text-color`}
+        className={`${spaceMono.className} antialiased text-neutral`}
       >
         {children}
       </body>

@@ -15,7 +15,6 @@ export default async function GameBody({ gameID }: { gameID: number }) {
   let lastRow: Round | undefined = undefined;
   let unusedMinigames = [] as UnusedMinigames[];
 
-
   for (const round of rounds) {
     if (
       round.p1 !== null &&
@@ -42,28 +41,25 @@ export default async function GameBody({ gameID }: { gameID: number }) {
   }
 
   return (
-    <>
-      <table className="w-full table-fixed">
+    <div className="bg-white border border-neutral-dark rounded-lg shadow-md p-4">
+      <table className="w-full table-fixed border-collapse">
         <thead>
-          <tr className="border-b-4 border-black border-double">
-            <th className="mb-6">Nº</th>
-            <th className="text-center">p1</th>
-            <th className="text-center">p2</th>
-            <th className="text-center">p3</th>
-            <th className="text-center">p4</th>
-            <th className="flex justify-center">
-              <Puzzle />
-            </th>
+          <tr className="border-b-4 border-black border-double bg-neutral-light">
+            <th className="text-center">Nº</th>
+            <th className="text-center">P1</th>
+            <th className="text-center">P2</th>
+            <th className="text-center">P3</th>
+            <th className="text-center">P4</th>
+            <th className="p-2 flex justify-center"><Puzzle className="text-secondary" /></th>
           </tr>
         </thead>
-        <tbody>{rows}</tbody>
+        <tbody className="divide-y divide-neutral">
+          {rows}
+        </tbody>
       </table>
       <div className="grid grid-cols-3 gap-2 mt-4">
-        <NextRoundButton
-          lastRound={lastRow}
-          unusedMinigames={unusedMinigames}
-        />
+        <NextRoundButton lastRound={lastRow} unusedMinigames={unusedMinigames} />
       </div>
-    </>
+    </div>
   );
 }
