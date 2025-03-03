@@ -18,7 +18,7 @@ export default function Page() {
       </div>
       <Link
         href={"/showcase"}
-        className="py-2 px-4 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white transition-colors text-md font-bold rounded-md"
+        className="hidden py-2 px-4 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white transition-colors text-md font-bold rounded-md"
       >
         Poglej kako izgleda
       </Link>
