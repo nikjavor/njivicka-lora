@@ -5,9 +5,9 @@ First of all: to je zgolj sideproject aka. no judging :)
 Aplikacija za sledenje rezultatom Lore.
 Narejeno za ekipo iz Njivic.
 
-<!-- 
 Dostopna na: [lora.nikjavor.si][website]. 
 
+<!-- 
 Za ustvarjanje profila mi piši na [mail](mailto:nik.javor+lora25@proton.me).
 -->
 
@@ -24,6 +24,7 @@ Njivička Lora je aplikacija narejena za sledenje rezultatom iger Lore. Narejena
   - Izbiranje vrste igre za vsako rundo
  
 ## Kaj prihaja?
+- Boljši login handling
 - Lepši UI (barve...)
 - Game
   - Legenda iger
